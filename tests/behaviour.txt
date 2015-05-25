@@ -1,0 +1,26 @@
+show picker:
+- when input is focused
+- when input is clicked
+- when div is focused
+- when div is clicked
+
+color is chosen:
+- when clicked on the color
+- when pressed enter on the chosen color
+
+hide picker:
+- when focus is lost by pressing tab
+- when clicked outside
+- when presed ESC
+
+events:
+- pickerDestroyed
+- colorChosen with color and elem as params
+- lostFocus
+- pickerCreated
+- initialized
+
+integration:
+- only ine global var is created
+- no global vars if included in an amd env
+- amd works
