@@ -8,7 +8,8 @@ Features / todo:
 - [x] custom color sets
 - [x] adjustable appearance
 - [ ] auto tests including integration
-- [ ] supply to microjs.com
+- [ ] prepare dist
 - [ ] browser support tests
 - [ ] mobile support
+- [ ] supply to microjs.com
 - [ ] benchmarking
