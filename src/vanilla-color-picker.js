@@ -1,5 +1,6 @@
 (function(global) {
 
+  // @todo: bind in as a build step, so css is readable
   var basicCSS = '.vanilla-color-picker { display: inline-block; position: absolute; padding: 5px; background-color: #fff; box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.3) } .vanilla-color-picker-single-color { display: inline-block; width: 20px; height: 20px; margin: 1px; border-radius: 2px; }';
   function singleColorTpl(color, index, picked) {
     var pickedClass = picked ? "vanilla-color-picker-single-color-picked" : '';
@@ -114,10 +115,11 @@
       this.elem.addEventListener('keydown', function(e) {
         var ENTER = 13;
         var ESC = 27;
-        if (e.which == ENTER) {
+        var keyCode = e.which || e.keyCode;
+        if (keyCode == ENTER) {
           _this.emit('colorChosen', e.target.dataset.color); 
         }
-        if(e.which == ESC) {
+        if(keyCode == ESC) {
           _this.emit('lostFocus');
         }
       });
@@ -143,6 +145,7 @@
 
     this._addEventListeners = function() {
       this.elem.addEventListener('click', this.openPicker);
+      this.elem.addEventListener('focus', this.openPicker);
       this.on('customColors', function(colors) {
         if (!colors instanceof Array) {
           throw new Error('Colors must be an array');
@@ -165,7 +168,7 @@
       }
       this_.currentPicker.destroy();
       this_.currentPicker = null;
-      this_.emit('pickerDestroyed');
+      this_.emit('pickerClosed');
     }
 
     this.openPicker = function() {
@@ -179,14 +182,12 @@
         this_.emit('colorChosen', color, this_.elem);
       });
       this_.currentPicker.on('lostFocus', function() {
-        this_.emit('lostFocus');
         this_.destroyPicker();
       });
       this_.emit('pickerCreated');
     };
 
     this._initialize();
-    this_.emit('initialized');
   };
 
   function vanillaColorPicker(element, options) {
@@ -196,7 +197,7 @@
   }
 
   if (global.define && global.define.amd) {
-    define('vanillaColorPicker', [], function() {
+    define([], function() {
       return vanillaColorPicker;
     });
   } else {
