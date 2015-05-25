@@ -1,6 +1,6 @@
 (function(global) {
 
-  var basicCSS = '.vanilla-color-picker { display: inline-block; position: absolute; padding: 5px; background-color: #fff; box-shadow: 2px 2px 2px 2px rgba(0,0,255,0.5) } .vanilla-color-picker-single-color { display: inline-block; width: 20px; height: 20px; margin: 1px; border-radius: 2px; }';
+  var basicCSS = '.vanilla-color-picker { display: inline-block; position: absolute; padding: 5px; background-color: #fff; box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.3) } .vanilla-color-picker-single-color { display: inline-block; width: 20px; height: 20px; margin: 1px; border-radius: 2px; }';
   function singleColorTpl(color, index, picked) {
     var pickedClass = picked ? "vanilla-color-picker-single-color-picked" : '';
     return '<div class="vanilla-color-picker-single-color ' + pickedClass + '" tabindex="' + index + '" data-color="' + color + '" style="background-color:' + color + '"></div>';
@@ -17,7 +17,12 @@
     style.setAttribute('type', 'text/css');
     style.setAttribute('id', 'vanilla-color-picker-style');
     style.innerHTML = basicCSS;
-    global.document.head.appendChild(style);
+    var firstInHead = global.document.head.children[0];
+    if (firstInHead) {
+      global.document.head.insertBefore(style, firstInHead);
+    } else {
+      global.document.head.appendChild(style);
+    }
     
   }
 
@@ -37,7 +42,7 @@
     };
   }
 
-  function SinglePicker(elem, colors) {
+  function SinglePicker(elem, colors, className) {
     MessageMediator.apply(this);
     this.targetElem = elem;
     this.elem = null;
@@ -81,6 +86,9 @@
     this._createPickerElement = function() {
       this.elem = document.createElement('div');
       this.elem.classList.add('vanilla-color-picker');
+      if (className) {
+        this.elem.classList.add(className);
+      }
 
       var currentlyChosenColorIndex = colors.indexOf(this.targetElem.dataset.vanillaPickerColor);
 
@@ -124,6 +132,7 @@
     this.set = this.emit;
 
     this.colors = DEFAULT_COLORS;
+    this.className = '';
     this.elem = elem;
     this.currentPicker = null;
     var this_ = this;
@@ -140,6 +149,9 @@
         }
         this_.colors = colors;
       });
+      this.on('className', function(className) {
+        this_.className = className;
+      })
     };
 
     this._updateElemState = function(color) {
@@ -160,7 +172,7 @@
       if (this_.currentPicker) {
         return;
       }
-      this_.currentPicker = new SinglePicker(this_.elem, this_.colors);
+      this_.currentPicker = new SinglePicker(this_.elem, this_.colors, this_.className);
       this_.currentPicker.on('colorChosen', function(color) {
         this_._updateElemState(color);
         this_.destroyPicker();
@@ -183,7 +195,7 @@
   }
 
   if (global.define && global.define.amd) {
-    define([], function() {
+    define('vanillaColorPicker', [], function() {
       return vanillaColorPicker;
     });
   } else {

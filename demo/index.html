@@ -3,8 +3,12 @@
 <head>
   <title>Vanilla Color Picker demo</title>
   <style type="text/css">
-    .justPicker2:before {
-      content:attr(data-vanillaPickerColor);
+    .just-picker2:after {
+      content:attr(data-vanilla-picker-color);
+    }
+
+    .my-picker {
+      background-color: #333;
     }
   </style>
 </head>
@@ -12,32 +16,32 @@
   <h1>Color picker on an input</h1>
   <section>
     <pre>
-      var picker = vanillaColorPicker(document.querySelector('input.justPicker'));
+      var picker = vanillaColorPicker(document.querySelector('input.just-picker'));
     </pre>
 
-    <input class="justPicker" />
+    <input class="just-picker" />
     <script type="text/javascript">
     window.addEventListener('load', function() {
-      var picker = vanillaColorPicker(document.querySelector('input.justPicker'));
+      var picker = vanillaColorPicker(document.querySelector('input.just-picker'));
     });
     </script>
   </section>
   <h1>Color picker on any element</h1>
   <section>
     <pre>
-      var picker = vanillaColorPicker(document.querySelector('div.justPicker'));
+      var picker = vanillaColorPicker(document.querySelector('div.just-picker'));
       
       picker.on('colorChosen', function(color, targetElem) {
         targetElem.style.backgroundColor = color;
       });
     </pre>
 
-    <div class="justPicker">
+    <div class="just-picker">
       Click me
     </div>
     <script type="text/javascript">
       window.addEventListener('load', function() {
-        var picker = vanillaColorPicker(document.querySelector('div.justPicker'));
+        var picker = vanillaColorPicker(document.querySelector('div.just-picker'));
         
         picker.on('colorChosen', function(color, targetElem) {
           targetElem.style.backgroundColor = color;
@@ -49,16 +53,16 @@
   <h1>Setting a custom color set</h1>
   <section>
     <pre>
-      var picker = vanillaColorPicker(document.querySelector('div.justPicker2'));
+      var picker = vanillaColorPicker(document.querySelector('div.just-picker2'));
       picker.set('customColors', ['red', '#0f0', 'rgb(255,255,0)']);
     </pre>
 
-    <div class="justPicker2">
+    <div class="just-picker2">
       Click me
     </div>
     <script type="text/javascript">
       window.addEventListener('load', function() {
-        var picker = vanillaColorPicker(document.querySelector('div.justPicker2'));
+        var picker = vanillaColorPicker(document.querySelector('div.just-picker2'));
         picker.set('customColors', ['red', '#0f0', 'rgb(255,255,0)', '#f00c67']);
       });
     </script>
@@ -66,8 +70,29 @@
 
   <h1>Appearance customisation with CSS</h1>
   <section>
-    var picker = vanillaColorPicker(document.querySelector('div.justPicker'), {className: 'myFirstPicker'});
+    <pre>
+      var picker = vanillaColorPicker(document.querySelector('div.just-picker3')
+      picker.set('className', 'my-picker');      
+
+      <b>CSS:</b>
+      .my-picker {
+        background-color: #333;
+      }
+    </pre>
+    <div class="just-picker3">
+      Click me
+    </div>
+    <script type="text/javascript">
+      window.addEventListener('load', function() {
+        var picker = vanillaColorPicker(document.querySelector('div.just-picker3'));
+        picker.set('className', 'my-picker');  
+      });
+    </script>
   </section>
+
+  <br />
+  <br />
+  <br />
 
   <script src="../src/vanilla-color-picker.js"></script>
 </body>
