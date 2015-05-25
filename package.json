@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "karma run"
+    "test": "node_modules/karma/bin/karma start --single-run=true",
+    "start": "node node_modules/minifier/index.js --output dist/vanilla-color-picker.min.js src/vanilla-color-picker.js && cp src/vanilla-color-picker.js dist/vanilla-color-picker.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,8 @@
   "homepage": "https://github.com/miroshko/vanilla-color-picker",
   "dependencies": {
     "karma": "^0.12.32",
-    "karma-effroi": "0.0.0"
+    "karma-effroi": "0.0.0",
+    "minifier": "^0.6.2"
   },
   "devDependencies": {
     "jasmine-core": "^2.3.4",

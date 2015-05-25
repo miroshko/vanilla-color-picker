@@ -1,13 +1,3 @@
-// ============================================================
-//
-// Vanilla Color Picker v 0.1.1
-//
-// http://github.com/miroshko/vanilla-color-picker
-//
-// This project is licensed under the terms of the MIT license.
-//
-// ============================================================
-
 (function(global) {
 
   // @todo: bind in as a build step, so css is readable
