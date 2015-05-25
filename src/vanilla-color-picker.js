@@ -1,16 +1,21 @@
 (function(global) {
 
-  var basicCSS = '.vanilla-color-picker { display: inline-block; position: absolute; padding: 5px; background-color: #fff; box-shadow: 0 0 2px 0px rgba(0,0,0,0.5) } .vanilla-color-picker-single-color { display: inline-block; width: 20px; height: 20px; margin: 1px; border-radius: 2px; }';
-  function singleColorTpl(color) {
-    return '<div class="vanilla-color-picker-single-color" data-color="' + color + '" style="background-color:' + color + '"></div>';
+  var basicCSS = '.vanilla-color-picker { display: inline-block; position: absolute; padding: 5px; background-color: #fff; box-shadow: 2px 2px 2px 2px rgba(0,0,255,0.5) } .vanilla-color-picker-single-color { display: inline-block; width: 20px; height: 20px; margin: 1px; border-radius: 2px; }';
+  function singleColorTpl(color, index, picked) {
+    var pickedClass = picked ? "vanilla-color-picker-single-color-picked" : '';
+    return '<div class="vanilla-color-picker-single-color ' + pickedClass + '" tabindex="' + index + '" data-color="' + color + '" style="background-color:' + color + '"></div>';
   }
   var DEFAULT_COLORS = ['red', 'yellow', 'green'];
 
   // 
 
   function addBasicStyling() {
+    if (document.getElementById('vanilla-color-picker-style')) {
+      return;
+    }
     var style = document.createElement('style');
     style.setAttribute('type', 'text/css');
+    style.setAttribute('id', 'vanilla-color-picker-style');
     style.innerHTML = basicCSS;
     global.document.head.appendChild(style);
     
@@ -33,7 +38,6 @@
   }
 
   function SinglePicker(elem, colors) {
-    console.log(colors)
     MessageMediator.apply(this);
     this.targetElem = elem;
     this.elem = null;
@@ -64,19 +68,32 @@
     };
 
     this._onFocusLost = function() {
-      this_.emit('lostFocus');
+      setTimeout(function() {
+        if (this_.elem.contains(document.activeElement)) {
+          // blur is not propagating
+          document.activeElement.addEventListener('blur', this_._onFocusLost);
+        } else {
+          this_.emit('lostFocus');
+        }
+      }, 1);
     };
 
     this._createPickerElement = function() {
       this.elem = document.createElement('div');
       this.elem.classList.add('vanilla-color-picker');
+
+      var currentlyChosenColorIndex = colors.indexOf(this.targetElem.dataset.vanillaPickerColor);
+
       for (var i = 0; i < colors.length; i++) {
-        this.elem.innerHTML += singleColorTpl(colors[i]);
+        this.elem.innerHTML += singleColorTpl(colors[i], i + 1, i == currentlyChosenColorIndex);
       }
       this.targetElem.parentNode.appendChild(this.elem);
       this.elem.setAttribute('tabindex', 1);
-      this.elem.focus();
-      this.elem.addEventListener('blur', this_._onFocusLost)
+
+      var toFocus = currentlyChosenColorIndex > -1 ? currentlyChosenColorIndex : 0;
+
+      this.elem.children[toFocus].focus();
+      this.elem.children[toFocus].addEventListener('blur', this_._onFocusLost)
     };
 
     this._addEventListeners = function() {
@@ -84,6 +101,16 @@
       this.elem.addEventListener('click', function(e) {
         if (e.target.classList.contains('vanilla-color-picker-single-color')) {
           _this.emit('colorChosen', e.target.dataset.color); 
+        }
+      });
+      this.elem.addEventListener('keydown', function(e) {
+        var ENTER = 13;
+        var ESC = 27;
+        if (e.which == ENTER) {
+          _this.emit('colorChosen', e.target.dataset.color); 
+        }
+        if(e.which == ESC) {
+          _this.emit('lostFocus');
         }
       });
     };
@@ -106,7 +133,7 @@
     };
 
     this._addEventListeners = function() {
-      this.elem.addEventListener('click', this._createPicker);
+      this.elem.addEventListener('click', this.openPicker);
       this.on('customColors', function(colors) {
         if (!colors instanceof Array) {
           throw new Error('Colors must be an array');
@@ -120,29 +147,33 @@
       this.elem.value = color;
     };
 
-    this._destroyPicker = function() {
+    this.destroyPicker = function() {
+      if (!this_.currentPicker){
+        return;
+      }
       this_.currentPicker.destroy();
       this_.currentPicker = null;
       this_.emit('pickerDestroyed');
     }
 
-    this._createPicker = function(e) {
-      var elem = e.target;
+    this.openPicker = function() {
       if (this_.currentPicker) {
         return;
       }
-      this_.currentPicker = new SinglePicker(elem, this_.colors);
+      this_.currentPicker = new SinglePicker(this_.elem, this_.colors);
       this_.currentPicker.on('colorChosen', function(color) {
         this_._updateElemState(color);
-        this_._destroyPicker();
-        this_.emit('colorChosen', color, elem);
+        this_.destroyPicker();
+        this_.emit('colorChosen', color, this_.elem);
       });
       this_.currentPicker.on('lostFocus', function() {
-        this_._destroyPicker();
+        this_.destroyPicker();
       });
+      this_.emit('pickerCreated');
     };
 
     this._initialize();
+    this_.emit('initialized');
   };
 
   function vanillaColorPicker(element, options) {
@@ -151,5 +182,11 @@
     return new PickerHolder(element, options);
   }
 
-  global.vanillaColorPicker = vanillaColorPicker;
+  if (global.define && global.define.amd) {
+    define([], function() {
+      return vanillaColorPicker;
+    });
+  } else {
+    global.vanillaColorPicker = vanillaColorPicker;
+  }
 })(this || window);
