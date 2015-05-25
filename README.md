@@ -1,7 +1,8 @@
 Vanilla Color Picker v0.1.0 
 ======
 
-demo: http://miroshko.name/vanilla-color-picker/demo/
+A very minimalistic and tiny yet highly customizable and extendible javascript color picker. No jQuery or other third-party dependencies are needed.
+Demo and examples: http://miroshko.name/vanilla-color-picker/demo/
 
 Features / todo:
 - [x] picking colors
@@ -12,4 +13,4 @@ Features / todo:
 - [ ] browser support tests
 - [ ] mobile support
 - [ ] supply to microjs.com
-- [ ] benchmarking
+- [ ] benchmark
