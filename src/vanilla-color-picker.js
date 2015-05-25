@@ -4,7 +4,7 @@
   function singleColorTpl(color) {
     return '<div class="vanilla-color-picker-single-color" data-color="' + color + '" style="background-color:' + color + '"></div>';
   }
-  var colors = ['red', 'yellow', 'green'];
+  var DEFAULT_COLORS = ['red', 'yellow', 'green'];
 
   // 
 
@@ -32,7 +32,8 @@
     };
   }
 
-  function SinglePicker(elem) {
+  function SinglePicker(elem, colors) {
+    console.log(colors)
     MessageMediator.apply(this);
     this.targetElem = elem;
     this.elem = null;
@@ -92,6 +93,10 @@
 
   function PickerHolder(elem) {
     MessageMediator.apply(this);
+    // an alias for more intuitivity
+    this.set = this.emit;
+
+    this.colors = DEFAULT_COLORS;
     this.elem = elem;
     this.currentPicker = null;
     var this_ = this;
@@ -102,6 +107,12 @@
 
     this._addEventListeners = function() {
       this.elem.addEventListener('click', this._createPicker);
+      this.on('customColors', function(colors) {
+        if (!colors instanceof Array) {
+          throw new Error('Colors must be an array');
+        }
+        this_.colors = colors;
+      });
     };
 
     this._updateElemState = function(color) {
@@ -120,7 +131,7 @@
       if (this_.currentPicker) {
         return;
       }
-      this_.currentPicker = new SinglePicker(elem);
+      this_.currentPicker = new SinglePicker(elem, this_.colors);
       this_.currentPicker.on('colorChosen', function(color) {
         this_._updateElemState(color);
         this_._destroyPicker();
@@ -134,10 +145,10 @@
     this._initialize();
   };
 
-  function vanillaColorPicker(element) {
+  function vanillaColorPicker(element, options) {
     // @todo: move from here
     addBasicStyling();
-    return new PickerHolder(element);
+    return new PickerHolder(element, options);
   }
 
   global.vanillaColorPicker = vanillaColorPicker;
