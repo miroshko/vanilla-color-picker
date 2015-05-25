@@ -8,7 +8,7 @@ Features / todo:
 - [x] picking colors
 - [x] custom color sets
 - [x] adjustable appearance
-- [ ] auto tests including integration
+- [X] auto tests including integration
 - [ ] prepare dist
 - [ ] browser support tests
 - [ ] mobile support
