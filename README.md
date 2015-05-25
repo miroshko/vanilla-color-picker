@@ -9,7 +9,7 @@ Features / todo:
 - [x] custom color sets
 - [x] adjustable appearance
 - [X] auto tests including integration
-- [ ] prepare dist
+- [X] prepare dist
 - [ ] browser support tests
 - [ ] mobile support
 - [ ] supply to microjs.com
