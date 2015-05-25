@@ -90,7 +90,35 @@
     </script>
   </section>
 
-  <br />
+  <h1>Events</h1>
+  <section>
+    <pre>
+      var picker = vanillaColorPicker(document.querySelector('input.just-picker4'));
+      picker.on('pickerCreated', function(color) {
+        picker.elem.value = 'Choose your color';
+      });
+      picker.on('lostFocus', function() {
+        if (!picker.elem.dataset.vanillaPickerColor) {
+          picker.elem.value = 'No color';
+        }
+      });
+    </pre>  
+    <input class="just-picker4">
+    <script type="text/javascript">
+      window.addEventListener('load', function() {
+        var picker = vanillaColorPicker(document.querySelector('input.just-picker4'));
+        picker.on('pickerCreated', function(color) {
+          picker.elem.value = 'Choose your color';
+        });
+        picker.on('lostFocus', function() {
+          if (!picker.elem.dataset.vanillaPickerColor) {
+            picker.elem.value = 'No color';
+          }
+        });
+      });
+    </script>  
+  </section>
+
   <br />
   <br />
 

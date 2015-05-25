@@ -75,7 +75,7 @@
     this._onFocusLost = function() {
       setTimeout(function() {
         if (this_.elem.contains(document.activeElement)) {
-          // blur is not propagating
+          // because blur is not propagating
           document.activeElement.addEventListener('blur', this_._onFocusLost);
         } else {
           this_.emit('lostFocus');
@@ -179,6 +179,7 @@
         this_.emit('colorChosen', color, this_.elem);
       });
       this_.currentPicker.on('lostFocus', function() {
+        this_.emit('lostFocus');
         this_.destroyPicker();
       });
       this_.emit('pickerCreated');
