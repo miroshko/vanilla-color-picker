@@ -14,3 +14,6 @@ Features / todo:
 - [ ] mobile support
 - [ ] supply to microjs.com
 - [ ] benchmark
+
+
+This project is licensed under the terms of the MIT license.

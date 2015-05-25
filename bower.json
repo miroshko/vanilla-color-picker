@@ -5,7 +5,7 @@
     "Oleksii Miroshko <miroshko@live.com>"
   ],
   "description": "Dead simple javascript color picker. Without jQuery or other dependencies.",
-  "main": "vanilla-color-picker.js",
+  "main": "dist/vanilla-color-picker.min.js",
   "keywords": [
     "color",
     "picker",
@@ -19,7 +19,8 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
+    "src",
+    "demo",
     "tests"
   ]
 }
