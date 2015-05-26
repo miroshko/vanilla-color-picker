@@ -15,5 +15,5 @@
   ],
   "license": "MIT",
   "homepage": "miroshko.name/vanilla-color-picker",
-  "ignore": ["./!(dist/*.js)"]
+  "ignore": ["./!(dist)"]
 }
