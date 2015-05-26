@@ -1,6 +1,6 @@
 {
   "name": "vanilla-color-picker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "authors": [
     "Oleksii Miroshko <miroshko@live.com>"
   ],
@@ -15,12 +15,5 @@
   ],
   "license": "MIT",
   "homepage": "miroshko.name/vanilla-color-picker",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "src",
-    "demo",
-    "tests"
-  ]
+  "ignore": ["./!(dist/*.js)"]
 }
