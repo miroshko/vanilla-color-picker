@@ -1,4 +1,4 @@
-Vanilla Color Picker v0.1.1
+Vanilla Color Picker
 ======
 
 A very minimalistic and tiny yet highly customizable and extendible javascript color picker. No jQuery or other third-party dependencies are needed.
