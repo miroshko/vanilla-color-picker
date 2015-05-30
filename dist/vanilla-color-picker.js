@@ -1,6 +1,6 @@
 // ============================================================
 //
-// Vanilla Color Picker v 0.1.2
+// Vanilla Color Picker v 0.1.3
 //
 // http://github.com/miroshko/vanilla-color-picker
 //
@@ -165,7 +165,7 @@
       this.on('defaultColor', function(color) {
         if (!this_.elem.dataset.vanillaPickerColor) {
           this_._updateElemState(color);
-          this_.emit('colorChosen', color, this._elem);
+          this_.emit('colorChosen', color, this_.elem);
         }
       });
       this.on('className', function(className) {
