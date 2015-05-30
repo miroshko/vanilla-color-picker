@@ -1,6 +1,6 @@
 // ============================================================
 //
-// Vanilla Color Picker v 0.1.3
+// Vanilla Color Picker v 0.1.4
 //
 // http://github.com/miroshko/vanilla-color-picker
 //

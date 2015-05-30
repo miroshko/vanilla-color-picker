@@ -1,6 +1,6 @@
 {
   "name": "vanilla-color-picker",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Minimalistic color picker without dependencies",
   "main": "vanilla-color-picker.js",
   "directories": {
