@@ -119,6 +119,23 @@
     </script>  
   </section>
 
+  <h1>Default color</h1>
+  <section>
+    <pre>
+      var picker = vanillaColorPicker(document.querySelector('input.just-picker5'));
+      picker.set('customColors', ['#f00','#f22','#f44','#f88','#faa','#fcc','#fee');
+      picker.set('defaultColor', '#f44');
+    </pre>  
+    <input class="just-picker5">
+    <script type="text/javascript">
+      window.addEventListener('load', function() {
+        var picker = vanillaColorPicker(document.querySelector('input.just-picker5'));
+        picker.set('customColors', ['#f00','#f22','#f44','#f88','#faa','#fcc','#fee']);
+        picker.set('defaultColor', '#f44');
+      });
+    </script> 
+  </section>
+
   <br />
   <br />
 

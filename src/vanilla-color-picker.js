@@ -1,6 +1,6 @@
 // ============================================================
 //
-// Vanilla Color Picker v 0.1.1
+// Vanilla Color Picker v 0.1.2
 //
 // http://github.com/miroshko/vanilla-color-picker
 //
@@ -161,6 +161,12 @@
           throw new Error('Colors must be an array');
         }
         this_.colors = colors;
+      });
+      this.on('defaultColor', function(color) {
+        if (!this_.elem.dataset.vanillaPickerColor) {
+          this_._updateElemState(color);
+          this_.emit('colorChosen', color, this._elem);
+        }
       });
       this.on('className', function(className) {
         this_.className = className;
