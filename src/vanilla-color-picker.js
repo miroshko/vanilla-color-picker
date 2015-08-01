@@ -11,14 +11,12 @@
 (function(global) {
 
   // @todo: bind in as a build step, so css is readable
-  var basicCSS = '.vanilla-color-picker { display: inline-block; position: absolute; padding: 5px; background-color: #fff; box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.3) } .vanilla-color-picker-single-color { display: inline-block; width: 20px; height: 20px; margin: 1px; border-radius: 2px; }';
+  var basicCSS = '.vanilla-color-picker { display: inline-block; position: absolute; padding: 5px; background-color: #fff; box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.3) } .vanilla-color-picker-single-color { display: inline-block; width: 20px; height: 20px; margin: 1px; border-radius: 2px; z-index: 100 }';
   function singleColorTpl(color, index, picked) {
     var pickedClass = picked ? "vanilla-color-picker-single-color-picked" : '';
     return '<div class="vanilla-color-picker-single-color ' + pickedClass + '" tabindex="' + index + '" data-color="' + color + '" style="background-color:' + color + '"></div>';
   }
   var DEFAULT_COLORS = ['red', 'yellow', 'green'];
-
-  // 
 
   function addBasicStyling() {
     if (document.getElementById('vanilla-color-picker-style')) {
@@ -38,7 +36,7 @@
   }
 
   function MessageMediator() {
-    this.subscribers = {}
+    this.subscribers = {};
     this.on = function(eventName, callback) {
       this.subscribers[eventName] = this.subscribers[eventName] || [];
       this.subscribers[eventName].push(callback);
@@ -112,7 +110,7 @@
       var toFocus = currentlyChosenColorIndex > -1 ? currentlyChosenColorIndex : 0;
 
       this.elem.children[toFocus].focus();
-      this.elem.children[toFocus].addEventListener('blur', this_._onFocusLost)
+      this.elem.children[toFocus].addEventListener('blur', this_._onFocusLost);
     };
 
     this._addEventListeners = function() {
@@ -135,7 +133,7 @@
       });
     };
 
-    this._initialize()
+    this._initialize();
   }
 
   function PickerHolder(elem) {
@@ -157,7 +155,7 @@
       this.elem.addEventListener('click', this.openPicker);
       this.elem.addEventListener('focus', this.openPicker);
       this.on('customColors', function(colors) {
-        if (!colors instanceof Array) {
+        if (!(colors instanceof Array)) {
           throw new Error('Colors must be an array');
         }
         this_.colors = colors;
@@ -170,7 +168,7 @@
       });
       this.on('className', function(className) {
         this_.className = className;
-      })
+      });
     };
 
     this._updateElemState = function(color) {
@@ -185,7 +183,7 @@
       this_.currentPicker.destroy();
       this_.currentPicker = null;
       this_.emit('pickerClosed');
-    }
+    };
 
     this.openPicker = function() {
       if (this_.currentPicker) {
@@ -204,7 +202,7 @@
     };
 
     this._initialize();
-  };
+  }
 
   function vanillaColorPicker(element, options) {
     // @todo: move from here
