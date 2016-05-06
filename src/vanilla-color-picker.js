@@ -1,28 +1,30 @@
-// ============================================================
-//
-// Vanilla Color Picker v 0.1.4
-//
-// http://github.com/miroshko/vanilla-color-picker
-//
-// This project is licensed under the terms of the MIT license.
-//
-// ============================================================
+/**
+*
+* Vanilla Color Picker v 0.1.4
+*
+* http://github.com/miroshko/vanilla-color-picker
+*
+* This project is licensed under the terms of the MIT license.
+*
+*/
 
 (function(global) {
 
   // @todo: bind in as a build step, so css is readable
-  var basicCSS = '.vanilla-color-picker { display: inline-block; position: absolute; padding: 5px; background-color: #fff; box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.3) } .vanilla-color-picker-single-color { display: inline-block; width: 20px; height: 20px; margin: 1px; border-radius: 2px; z-index: 100 }';
+  var basicCSS = '.vanilla-color-picker { display: inline-block; position: absolute; padding: 5px; background-color: #fff; box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.3) } .vanilla-color-picker-single-color { display: inline-block; width: 20px; height: 20px; margin: 1px; border-radius: 2px; }';
   function singleColorTpl(color, index, picked) {
     var pickedClass = picked ? "vanilla-color-picker-single-color-picked" : '';
     return '<div class="vanilla-color-picker-single-color ' + pickedClass + '" tabindex="' + index + '" data-color="' + color + '" style="background-color:' + color + '"></div>';
   }
   var DEFAULT_COLORS = ['red', 'yellow', 'green'];
 
+  //
+
   function addBasicStyling() {
-    if (document.getElementById('vanilla-color-picker-style')) {
+    if (global.document.getElementById('vanilla-color-picker-style')) {
       return;
     }
-    var style = document.createElement('style');
+    var style = global.document.createElement('style');
     style.setAttribute('type', 'text/css');
     style.setAttribute('id', 'vanilla-color-picker-style');
     style.innerHTML = basicCSS;
@@ -32,11 +34,11 @@
     } else {
       global.document.head.appendChild(style);
     }
-    
+
   }
 
   function MessageMediator() {
-    this.subscribers = {};
+    this.subscribers = {}
     this.on = function(eventName, callback) {
       this.subscribers[eventName] = this.subscribers[eventName] || [];
       this.subscribers[eventName].push(callback);
@@ -83,9 +85,9 @@
 
     this._onFocusLost = function() {
       setTimeout(function() {
-        if (this_.elem.contains(document.activeElement)) {
+        if (this_.elem.contains(global.document.activeElement)) {
           // because blur is not propagating
-          document.activeElement.addEventListener('blur', this_._onFocusLost);
+          global.document.activeElement.addEventListener('blur', this_._onFocusLost);
         } else {
           this_.emit('lostFocus');
         }
@@ -93,7 +95,7 @@
     };
 
     this._createPickerElement = function() {
-      this.elem = document.createElement('div');
+      this.elem = global.document.createElement('div');
       this.elem.classList.add('vanilla-color-picker');
       if (className) {
         this.elem.classList.add(className);
@@ -110,14 +112,18 @@
       var toFocus = currentlyChosenColorIndex > -1 ? currentlyChosenColorIndex : 0;
 
       this.elem.children[toFocus].focus();
-      this.elem.children[toFocus].addEventListener('blur', this_._onFocusLost);
+      this.elem.children[toFocus].addEventListener('blur', this_._onFocusLost)
     };
 
     this._addEventListeners = function() {
       var _this = this;
       this.elem.addEventListener('click', function(e) {
+        // Aman
+        // Stop propagation else, it propogate to its parent click listener.
+        // which results recreation of vanila color picker
+        e.stopPropagation();
         if (e.target.classList.contains('vanilla-color-picker-single-color')) {
-          _this.emit('colorChosen', e.target.dataset.color); 
+          _this.emit('colorChosen', e.target.dataset.color);
         }
       });
       this.elem.addEventListener('keydown', function(e) {
@@ -125,7 +131,7 @@
         var ESC = 27;
         var keyCode = e.which || e.keyCode;
         if (keyCode == ENTER) {
-          _this.emit('colorChosen', e.target.dataset.color); 
+          _this.emit('colorChosen', e.target.dataset.color);
         }
         if(keyCode == ESC) {
           _this.emit('lostFocus');
@@ -133,7 +139,7 @@
       });
     };
 
-    this._initialize();
+    this._initialize()
   }
 
   function PickerHolder(elem) {
@@ -155,7 +161,7 @@
       this.elem.addEventListener('click', this.openPicker);
       this.elem.addEventListener('focus', this.openPicker);
       this.on('customColors', function(colors) {
-        if (!(colors instanceof Array)) {
+        if (!colors instanceof Array) {
           throw new Error('Colors must be an array');
         }
         this_.colors = colors;
@@ -168,7 +174,7 @@
       });
       this.on('className', function(className) {
         this_.className = className;
-      });
+      })
     };
 
     this._updateElemState = function(color) {
@@ -183,7 +189,7 @@
       this_.currentPicker.destroy();
       this_.currentPicker = null;
       this_.emit('pickerClosed');
-    };
+    }
 
     this.openPicker = function() {
       if (this_.currentPicker) {
@@ -202,16 +208,17 @@
     };
 
     this._initialize();
-  }
+  };
 
-  function vanillaColorPicker(element, options) {
+  function vanillaColorPicker(element, contentWindow, options) {
     // @todo: move from here
+    global = contentWindow || global;
     addBasicStyling();
     return new PickerHolder(element, options);
   }
 
   if (global.define && global.define.amd) {
-    define([], function() {
+    define([], function () {
       return vanillaColorPicker;
     });
   } else {
