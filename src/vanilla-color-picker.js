@@ -198,6 +198,7 @@
       this_.currentPicker.on('lostFocus', function() {
         this_.emit('lostFocus');
         this_.destroyPicker();
+        this_.emit('lostFocus');
       });
       this_.emit('pickerCreated');
     };
