@@ -30,7 +30,7 @@
   <section>
     <pre>
       var picker = vanillaColorPicker(document.querySelector('div.just-picker'));
-      
+
       picker.on('colorChosen', function(color, targetElem) {
         targetElem.style.backgroundColor = color;
       });
@@ -42,7 +42,7 @@
     <script type="text/javascript">
       window.addEventListener('load', function() {
         var picker = vanillaColorPicker(document.querySelector('div.just-picker'));
-        
+
         picker.on('colorChosen', function(color, targetElem) {
           targetElem.style.backgroundColor = color;
         });
@@ -72,7 +72,7 @@
   <section>
     <pre>
       var picker = vanillaColorPicker(document.querySelector('div.just-picker3')
-      picker.set('className', 'my-picker');      
+      picker.set('className', 'my-picker');
 
       <b>CSS:</b>
       .my-picker {
@@ -85,7 +85,7 @@
     <script type="text/javascript">
       window.addEventListener('load', function() {
         var picker = vanillaColorPicker(document.querySelector('div.just-picker3'));
-        picker.set('className', 'my-picker');  
+        picker.set('className', 'my-picker');
       });
     </script>
   </section>
@@ -102,7 +102,7 @@
           picker.elem.value = 'No color';
         }
       });
-    </pre>  
+    </pre>
     <input class="just-picker4">
     <script type="text/javascript">
       window.addEventListener('load', function() {
@@ -116,7 +116,7 @@
           }
         });
       });
-    </script>  
+    </script>
   </section>
 
   <h1>Default color</h1>
@@ -125,7 +125,7 @@
       var picker = vanillaColorPicker(document.querySelector('input.just-picker5'));
       picker.set('customColors', ['#f00','#f22','#f44','#f88','#faa','#fcc','#fee');
       picker.set('defaultColor', '#f44');
-    </pre>  
+    </pre>
     <input class="just-picker5">
     <script type="text/javascript">
       window.addEventListener('load', function() {
@@ -133,12 +133,12 @@
         picker.set('customColors', ['#f00','#f22','#f44','#f88','#faa','#fcc','#fee']);
         picker.set('defaultColor', '#f44');
       });
-    </script> 
+    </script>
   </section>
 
   <br />
   <br />
 
-  <script src="../src/vanilla-color-picker.js"></script>
+  <script src="../dist/vanilla-color-picker.js"></script>
 </body>
 </html>

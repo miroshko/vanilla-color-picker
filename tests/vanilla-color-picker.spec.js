@@ -100,7 +100,7 @@ define(['../src/vanilla-color-picker'], function(colorPicker) {
     });
   });
 
-  fdescribe('Color pickers events', function() {
+  describe('Color pickers events', function() {
     var input, picker;
     beforeEach(function() {
       input = document.createElement('input');
@@ -115,10 +115,7 @@ define(['../src/vanilla-color-picker'], function(colorPicker) {
     });
 
     it('pickerCreated is triggered', function(done) {
-      picker.on('pickerCreated', function() {
-        expect(true).toEqual(true);
-        done();
-      });
+      picker.on('pickerCreated', done);
       effroi.mouse.focus(input);
       effroi.mouse.click(input);
     });
@@ -138,13 +135,18 @@ define(['../src/vanilla-color-picker'], function(colorPicker) {
     });
 
     it('pickerClosed is triggered', function(done) {
-      picker.on('pickerClosed', function() {
-        expect(true).toEqual(true);
-        done();
-      });
+      picker.on('pickerClosed', done);
       effroi.mouse.focus(input);
       effroi.mouse.click(input);
       effroi.keyboard.hit(effroi.keyboard.ESC);
+      effroi.keyboard.up(effroi.keyboard.ESC);
+    });
+
+    it('lostFocus is triggered', function(done) {
+      picker.on('lostFocus', done);
+      effroi.mouse.focus(input);
+      effroi.mouse.click(input);
+      effroi.mouse.focus(document.body);
     });
   });
 });

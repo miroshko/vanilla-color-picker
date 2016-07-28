@@ -1,6 +1,6 @@
 // ============================================================
 //
-// Vanilla Color Picker v 0.1.7
+// Vanilla Color Picker v 0.1.8
 //
 // http://github.com/miroshko/vanilla-color-picker
 //
@@ -32,7 +32,7 @@
     } else {
       global.document.head.appendChild(style);
     }
-    
+
   }
 
   function MessageMediator() {
@@ -117,7 +117,7 @@
       var _this = this;
       this.elem.addEventListener('click', function(e) {
         if (e.target.classList.contains('vanilla-color-picker-single-color')) {
-          _this.emit('colorChosen', e.target.dataset.color); 
+          _this.emit('colorChosen', e.target.dataset.color);
         }
       });
       this.elem.addEventListener('keydown', function(e) {
@@ -125,7 +125,7 @@
         var ESC = 27;
         var keyCode = e.which || e.keyCode;
         if (keyCode == ENTER) {
-          _this.emit('colorChosen', e.target.dataset.color); 
+          _this.emit('colorChosen', e.target.dataset.color);
         }
         if(keyCode == ESC) {
           _this.emit('lostFocus');
@@ -196,6 +196,7 @@
         this_.emit('colorChosen', color, this_.elem);
       });
       this_.currentPicker.on('lostFocus', function() {
+        this_.emit('lostFocus');
         this_.destroyPicker();
       });
       this_.emit('pickerCreated');
