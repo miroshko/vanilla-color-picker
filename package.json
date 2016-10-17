@@ -24,12 +24,10 @@
     "url": "https://github.com/miroshko/vanilla-color-picker/issues"
   },
   "homepage": "https://github.com/miroshko/vanilla-color-picker",
-  "dependencies": {
+  "devDependencies": {
     "karma": "^0.12.32",
     "karma-effroi": "0.0.0",
-    "minifier": "^0.6.2"
-  },
-  "devDependencies": {
+    "minifier": "^0.6.2",
     "jasmine-core": "^2.3.4",
     "karma-chrome-launcher": "^0.1.12",
     "karma-firefox-launcher": "^0.1.6",
